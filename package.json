@@ -1,0 +1,21 @@
+{
+	"name": "@censor/cfx-api",
+	"version": "1.0.0",
+	"scripts": {
+		"build": "tsc",
+		"watch": "tsc --watch"
+	},
+	"author": "CENSOR_1337",
+	"license": "MIT",
+	"devDependencies": {
+        "@citizenfx/client": "latest",
+		"@citizenfx/server": "latest",
+		"@types/node": "^20.5.9",
+		"typescript": "^5.2.2"
+	},
+	"exports": {
+		"./client": "./dist/client/index.js",
+		"./server": "./dist/server/index.js",
+		"./shared": "./dist/shared/index.js"
+	}
+}
