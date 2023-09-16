@@ -1,6 +1,6 @@
-import * as cfx from "@censor/cfx-core/server";
+import * as cfx from "@censor1337/cfx-core/server";
 import { Event } from "./Event";
-import { Vector3 } from "@censor/cfx-core/server";
+import { Vector3 } from "@censor1337/cfx-core/server";
 
 export class Player {
 	protected type = "player";

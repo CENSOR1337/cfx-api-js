@@ -1,5 +1,5 @@
 import { Citizen, Event as SharedEvent } from "../shared";
-import * as cfx from "@censor/cfx-core/server";
+import * as cfx from "@censor1337/cfx-core/server";
 
 declare var source: number; // cfx player source
 type clientListenerType = (source: number, ...args: any[]) => void;
