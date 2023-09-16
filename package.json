@@ -31,6 +31,6 @@
 		"./shared": "./dist/shared/index.js"
 	},
 	"dependencies": {
-		"@censor1337/cfx-core": "^0.0.3"
+		"@censor1337/cfx-core": "^0.0.4"
 	}
 }
