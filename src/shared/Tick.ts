@@ -21,10 +21,4 @@ const clearTick = function (tick: Tick) {
 	tick.destroy();
 };
 
-
-export { 
-    Tick,
-    onTick,
-    onTick as everyTick,
-    clearTick,
-}
+export { Tick, onTick, onTick as everyTick, clearTick };
