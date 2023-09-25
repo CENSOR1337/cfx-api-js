@@ -8,7 +8,7 @@ interface CitizenTimer {
 	[Symbol.toPrimitive](): number;
 }
 
-const onTick = function (callback: Function) {
+const onTick = function (callback: Function): number {
 	return Citizen.setTick(callback);
 };
 
