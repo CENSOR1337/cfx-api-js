@@ -216,6 +216,26 @@ namespace ServerEventContext {
 			f216: boolean;
 		};
 	}
+
+	export interface respawnPlayerPedEvent {
+		sender: number;
+		data: {
+			f96: boolean;
+			f84: number;
+			f64: number;
+			f100: boolean;
+			f80: number;
+			f88: number;
+			posY: number;
+			posX: number;
+			f97: boolean;
+			f72: number;
+			f92: number;
+			f99: boolean;
+			f70: number;
+			posZ: number;
+		};
+	}
 }
 
 class Event extends SharedEvent {
@@ -329,6 +349,10 @@ class ServerEvent extends Event {
 
 	public static explosionEvent(handler: (ctx: ServerEventContext.explosionEvent) => any): Event {
 		return this.bindEvent<ServerEventContext.explosionEvent>("explosionEvent", (sender: number, data: any) => ({ sender, data }), handler);
+	}
+
+	public static respawnPlayerPedEvent(handler: (ctx: ServerEventContext.respawnPlayerPedEvent) => any): Event {
+		return this.bindEvent<ServerEventContext.respawnPlayerPedEvent>("respawnPlayerPedEvent", (sender: number, data: any) => ({ sender, data }), handler);
 	}
 }
 
