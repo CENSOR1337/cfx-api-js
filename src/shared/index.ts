@@ -1,4 +1,4 @@
-export * from "@censor1337/cfx-core/client";
+export * from "@censor1337/cfx-core/shared";
 import { isDuplicityVersion } from "../shared";
 export const isServer = isDuplicityVersion();
 export const isClient = !isServer;
