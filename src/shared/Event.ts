@@ -13,9 +13,14 @@ export interface IEventEmitter {
 
 const events = new Map<string, EventEmitter>();
 
+interface IFunctionId {
+    id: number;
+    listener: Function;
+}
+
 class EventEmitter {
 	public readonly eventname: string;
-	private readonly listeners = new Map<number, Function>();
+	private readonly listeners =  new Array<IFunctionId>();
 	private listenerId = 0;
 	private listener: listenerType;
 	private netSafe: boolean;
@@ -32,9 +37,9 @@ class EventEmitter {
 	}
 
 	private onEventInvoke(...args: any[]): void {
-		this.listeners.forEach((listener: Function, id: number) => {
-			listener(...args);
-		});
+		for (const listener of this.listeners) {
+            listener.listener(...args);
+        }
 	}
 
 	public addListener(listener: Function, netSafe = false): IEventEmitter {
@@ -44,7 +49,10 @@ class EventEmitter {
 			this.netSafe = true;
 		}
 		this.listenerId++;
-		this.listeners.set(this.listenerId, listener);
+		this.listeners.push({
+            id: this.listenerId,
+            listener,
+        })
 		return {
 			eventname: this.eventname,
 			listenerId: this.listenerId,
@@ -52,11 +60,11 @@ class EventEmitter {
 	}
 
 	public removeListener(listenerId: number): void {
-		this.listeners.delete(listenerId);
+        const index = this.listeners.findIndex((listener) => listener.id === listenerId);
+        if (index === -1) return;
+        this.listeners.splice(index, 1);
 
-        const eventInstance = events.get(this.eventname);
-        if (!eventInstance) return;
-        if (this.listeners.size > 0) return;
+        if (this.listeners.length > 0) return;
         events.delete(this.eventname);
 	}
 }
