@@ -14,13 +14,13 @@ export interface IEventEmitter {
 const events = new Map<string, EventEmitter>();
 
 interface IFunctionId {
-    id: number;
-    listener: Function;
+	id: number;
+	listener: Function;
 }
 
 class EventEmitter {
 	public readonly eventname: string;
-	private readonly listeners =  new Array<IFunctionId>();
+	private readonly listeners = new Array<IFunctionId>();
 	private listenerId = 0;
 	private listener: listenerType;
 	private netSafe: boolean;
@@ -38,8 +38,8 @@ class EventEmitter {
 
 	private onEventInvoke(...args: any[]): void {
 		for (const listener of this.listeners) {
-            listener.listener(...args);
-        }
+			listener.listener(...args);
+		}
 	}
 
 	public addListener(listener: Function, netSafe = false): IEventEmitter {
@@ -50,9 +50,9 @@ class EventEmitter {
 		}
 		this.listenerId++;
 		this.listeners.push({
-            id: this.listenerId,
-            listener,
-        })
+			id: this.listenerId,
+			listener,
+		});
 		return {
 			eventname: this.eventname,
 			listenerId: this.listenerId,
@@ -60,12 +60,12 @@ class EventEmitter {
 	}
 
 	public removeListener(listenerId: number): void {
-        const index = this.listeners.findIndex((listener) => listener.id === listenerId);
-        if (index === -1) return;
-        this.listeners.splice(index, 1);
+		const index = this.listeners.findIndex((listener) => listener.id === listenerId);
+		if (index === -1) return;
+		this.listeners.splice(index, 1);
 
-        if (this.listeners.length > 0) return;
-        events.delete(this.eventname);
+		if (this.listeners.length > 0) return;
+		events.delete(this.eventname);
 	}
 }
 
@@ -82,7 +82,7 @@ function removeEvent(eventData: IEventEmitter) {
 	const eventInstance = events.get(eventData.eventname);
 	if (!eventInstance) return;
 
-    eventInstance.removeListener(eventData.listenerId);
+	eventInstance.removeListener(eventData.listenerId);
 }
 
 export class EventBase {
