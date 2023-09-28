@@ -42,7 +42,7 @@ class EventEmitter {
 		}
 	}
 
-	public addListener(listener: Function, netSafe = false): IEventEmitter {
+	public addListener(listener: Function, netSafe = false): number {
 		if (netSafe && !this.netSafe) {
 			Citizen.removeEventListener(this.eventname, this.listener);
 			Citizen.addEventListener(this.eventname, this.listener, netSafe);
@@ -53,10 +53,7 @@ class EventEmitter {
 			id: this.listenerId,
 			listener,
 		});
-		return {
-			eventname: this.eventname,
-			listenerId: this.listenerId,
-		};
+		return this.listenerId;
 	}
 
 	public removeListener(listenerId: number): void {
@@ -74,8 +71,9 @@ function addEvent(eventname: string, listener: Function, netSafe = false): IEven
 	if (!eventInstance) {
 		eventInstance = new EventEmitter(eventname);
 	}
-
-	return eventInstance.addListener(listener, netSafe);
+    
+	const listenerId = eventInstance.addListener(listener, netSafe);
+	return { eventname, listenerId };
 }
 
 function removeEvent(eventData: IEventEmitter) {
