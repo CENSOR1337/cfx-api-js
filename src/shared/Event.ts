@@ -20,7 +20,7 @@ interface IFunctionId {
 
 class EventEmitter {
 	public readonly eventname: string;
-	private readonly listeners = new Array<IFunctionId>();
+	public readonly listeners = new Array<IFunctionId>();
 	private listenerId = 0;
 	private listener: listenerType;
 	private netSafe: boolean;
@@ -33,7 +33,6 @@ class EventEmitter {
 		};
 
 		Citizen.addEventListener(this.eventname, this.listener, this.netSafe);
-		events.set(this.eventname, this);
 	}
 
 	private onEventInvoke(...args: any[]): void {
@@ -60,9 +59,6 @@ class EventEmitter {
 		const index = this.listeners.findIndex((listener) => listener.id === listenerId);
 		if (index === -1) return;
 		this.listeners.splice(index, 1);
-
-		if (this.listeners.length > 0) return;
-		events.delete(this.eventname);
 	}
 }
 
@@ -71,6 +67,7 @@ function addEvent(eventname: string, listener: Function, netSafe = false): IEven
 	if (!eventInstance) {
 		eventInstance = new EventEmitter(eventname);
 	}
+    events.set(eventname, eventInstance);
     
 	const listenerId = eventInstance.addListener(listener, netSafe);
 	return { eventname, listenerId };
@@ -81,6 +78,9 @@ function removeEvent(eventData: IEventEmitter) {
 	if (!eventInstance) return;
 
 	eventInstance.removeListener(eventData.listenerId);
+
+    if (eventInstance.listeners.length > 0) return;
+    events.delete(eventData.eventname);
 }
 
 export class EventBase {
