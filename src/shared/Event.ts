@@ -13,14 +13,14 @@ export interface IEventEmitter {
 	listenerId: number;
 }
 
-const events = new Map<number, EventEmitter>();
+const events = new Map<number, EventListener>();
 
 interface IFunctionId {
 	id: number;
 	listener: Function;
 }
 
-class EventEmitter {
+class EventListener {
 	public readonly eventname: string;
 	public readonly listeners = new Array<IFunctionId>();
 	private listenerId = 0;
@@ -68,7 +68,7 @@ function addEvent(eventname: string, listener: Function, netSafe = false): IEven
 	const hashName = hash(eventname);
 	let eventInstance = events.get(hashName);
 	if (!eventInstance) {
-		eventInstance = new EventEmitter(eventname);
+		eventInstance = new EventListener(eventname);
 	}
 	events.set(hashName, eventInstance);
 
