@@ -69,8 +69,8 @@ function addEvent(eventname: string, listener: Function, netSafe = false): IEven
 	let eventInstance = events.get(hashName);
 	if (!eventInstance) {
 		eventInstance = new EventListener(eventname);
+        events.set(hashName, eventInstance);
 	}
-	events.set(hashName, eventInstance);
 
 	const listenerId = eventInstance.addListener(listener, netSafe);
 	return { eventHash: hashName, listenerId };
