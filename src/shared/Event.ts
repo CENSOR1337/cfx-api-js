@@ -1,5 +1,7 @@
 import { Citizen } from "./Citizen";
 import { Vector2, Vector3 } from ".";
+import { hash } from ".";
+
 export type listenerType = (...args: any[]) => void;
 export interface EventData {
 	eventName: string;
@@ -7,11 +9,11 @@ export interface EventData {
 }
 
 export interface IEventEmitter {
-	eventname: string;
+	eventHash: number;
 	listenerId: number;
 }
 
-const events = new Map<string, EventEmitter>();
+const events = new Map<number, EventEmitter>();
 
 interface IFunctionId {
 	id: number;
@@ -63,24 +65,25 @@ class EventEmitter {
 }
 
 function addEvent(eventname: string, listener: Function, netSafe = false): IEventEmitter {
-	let eventInstance = events.get(eventname);
+	const hashName = hash(eventname);
+	let eventInstance = events.get(hashName);
 	if (!eventInstance) {
 		eventInstance = new EventEmitter(eventname);
 	}
-    events.set(eventname, eventInstance);
-    
+	events.set(hashName, eventInstance);
+
 	const listenerId = eventInstance.addListener(listener, netSafe);
-	return { eventname, listenerId };
+	return { eventHash: hashName, listenerId };
 }
 
 function removeEvent(eventData: IEventEmitter) {
-	const eventInstance = events.get(eventData.eventname);
+	const eventInstance = events.get(eventData.eventHash);
 	if (!eventInstance) return;
 
 	eventInstance.removeListener(eventData.listenerId);
 
-    if (eventInstance.listeners.length > 0) return;
-    events.delete(eventData.eventname);
+	if (eventInstance.listeners.length > 0) return;
+	events.delete(eventData.eventHash);
 }
 
 export class EventBase {
