@@ -81,9 +81,6 @@ function removeEvent(eventData: IEventEmitter) {
 	if (!eventInstance) return;
 
 	eventInstance.removeListener(eventData.listenerId);
-
-	if (eventInstance.listeners.length > 0) return;
-	events.delete(eventData.eventHash);
 }
 
 export class EventBase {
