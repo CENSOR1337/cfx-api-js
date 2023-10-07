@@ -1,16 +1,11 @@
 import { Citizen } from "./Citizen";
 import { Vector2, Vector3 } from ".";
-import { hash } from ".";
+import { IEventListener } from "./interfaces/IEventListener";
 
 export type listenerType = (...args: any[]) => void;
 export interface EventData {
 	eventName: string;
 	listener: listenerType;
-}
-
-export interface IEventListener {
-	eventname: string;
-	listenerId: number;
 }
 
 const events = new Map<string, EventListener>();
