@@ -8,7 +8,7 @@ export interface EventData {
 	listener: listenerType;
 }
 
-export interface IEventEmitter {
+export interface IEventListener {
 	eventname: string;
 	listenerId: number;
 }
@@ -64,7 +64,7 @@ class EventListener {
 	}
 }
 
-function addEvent(eventname: string, listener: Function, netSafe = false): IEventEmitter {
+function addEvent(eventname: string, listener: Function, netSafe = false): IEventListener {
 	let eventInstance = events.get(eventname);
 	if (!eventInstance) {
 		eventInstance = new EventListener(eventname);
@@ -75,7 +75,7 @@ function addEvent(eventname: string, listener: Function, netSafe = false): IEven
 	return { eventname, listenerId };
 }
 
-function removeEvent(eventData: IEventEmitter) {
+function removeEvent(eventData: IEventListener) {
 	const eventInstance = events.get(eventData.eventname);
 	if (!eventInstance) return;
 
@@ -114,7 +114,7 @@ export class EventBase {
 export class Event extends EventBase {
 	private eventName: string;
 	private listener: listenerType;
-	private event: IEventEmitter;
+	private event: IEventListener;
 	private netSafe: boolean;
 	private once: boolean;
 
