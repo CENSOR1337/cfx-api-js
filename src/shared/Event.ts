@@ -9,11 +9,11 @@ export interface EventData {
 }
 
 export interface IEventEmitter {
-	eventHash: number;
+	eventname: string;
 	listenerId: number;
 }
 
-const events = new Map<number, EventListener>();
+const events = new Map<string, EventListener>();
 
 interface IFunctionId {
 	id: number;
@@ -65,19 +65,18 @@ class EventListener {
 }
 
 function addEvent(eventname: string, listener: Function, netSafe = false): IEventEmitter {
-	const hashName = hash(eventname);
-	let eventInstance = events.get(hashName);
+	let eventInstance = events.get(eventname);
 	if (!eventInstance) {
 		eventInstance = new EventListener(eventname);
-        events.set(hashName, eventInstance);
+		events.set(eventname, eventInstance);
 	}
 
 	const listenerId = eventInstance.addListener(listener, netSafe);
-	return { eventHash: hashName, listenerId };
+	return { eventname, listenerId };
 }
 
 function removeEvent(eventData: IEventEmitter) {
-	const eventInstance = events.get(eventData.eventHash);
+	const eventInstance = events.get(eventData.eventname);
 	if (!eventInstance) return;
 
 	eventInstance.removeListener(eventData.listenerId);
