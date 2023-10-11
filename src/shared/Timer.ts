@@ -50,6 +50,7 @@ function setInterval(callback: Function, ms: number = 0): Timer {
 	return new Timer(callback, ms, true);
 }
 
+export { Timer };
 export { onTick, onTick as everyTick, clearTimer as clearTick };
 export { setTimeout, clearTimer as clearTimeout };
 export { setInterval, clearTimer as clearInterval };
