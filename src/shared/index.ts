@@ -4,4 +4,4 @@ export const isServer = isDuplicityVersion();
 export const isClient = !isServer;
 export { Citizen } from "./Citizen";
 export { Event, listenerType } from "./Event";
-export { onTick, everyTick, clearTick } from "./Timer";
+export * from "./Timer";
