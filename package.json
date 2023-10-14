@@ -1,6 +1,6 @@
 {
 	"name": "@censor1337/cfx-api",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"scripts": {
 		"build": "tsc",
 		"watch": "tsc --watch"
@@ -22,7 +22,7 @@
 	"devDependencies": {
 		"@citizenfx/client": "latest",
 		"@citizenfx/server": "latest",
-		"@types/node": "^20.8.5",
+		"@types/node": "^20.8.6",
 		"typescript": "^5.2.2"
 	},
 	"exports": {
@@ -31,6 +31,6 @@
 		"./shared": "./dist/shared/index.js"
 	},
 	"dependencies": {
-		"@censor1337/cfx-core": "^0.1.0"
+		"@censor1337/cfx-core": "^0.1.1"
 	}
 }
