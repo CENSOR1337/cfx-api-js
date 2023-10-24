@@ -1,6 +1,5 @@
 import * as cfx from "@censor1337/cfx-core/server";
 import { Event } from "../Event";
-import { Vector3 } from "@censor1337/cfx-core/server";
 import { Entity } from "./Entity";
 
 export class Player extends Entity {
@@ -71,14 +70,6 @@ export class Player extends Entity {
 
 	public get ping(): number {
 		return cfx.getPlayerPing(this.src);
-	}
-
-	public get dimension(): number {
-		return cfx.getEntityRoutingBucket(this.ped);
-	}
-
-	public get pos(): Vector3 {
-		return cfx.getEntityCoords(this.ped);
 	}
 
 	public isAceAllow(object: string): boolean {
