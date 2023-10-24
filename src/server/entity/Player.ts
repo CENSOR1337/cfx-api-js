@@ -1,11 +1,13 @@
 import * as cfx from "@censor1337/cfx-core/server";
-import { Event } from "./Event";
+import { Event } from "../Event";
 import { Vector3 } from "@censor1337/cfx-core/server";
+import { Entity } from "./Entity";
 
-export class Player {
+export class Player extends Entity {
 	protected type = "player";
 	public readonly source: number;
 	private constructor(source: number) {
+		super();
 		this.source = source;
 	}
 
@@ -25,8 +27,12 @@ export class Player {
 		return new Player(Number(src));
 	}
 
+	public get valid(): boolean {
+		return cfx.doesPlayerExist(this.src);
+	}
+
 	public exists(): boolean {
-		return this.source !== 0;
+		return this.valid;
 	}
 
 	public get ped(): number {
@@ -60,6 +66,10 @@ export class Player {
 
 	public get ping(): number {
 		return cfx.getPlayerPing(this.src);
+	}
+
+	public get dimension(): number {
+		return cfx.getEntityRoutingBucket(this.ped);
 	}
 
 	public get pos(): Vector3 {
