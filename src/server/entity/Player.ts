@@ -36,7 +36,7 @@ export class Player extends Entity {
 		return cfx.doesPlayerExist(this.src);
 	}
 
-	public exists(): boolean {
+	public get exists(): boolean {
 		return this.valid;
 	}
 
