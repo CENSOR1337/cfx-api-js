@@ -4,11 +4,12 @@ import { Vector3 } from "@censor1337/cfx-core/server";
 import { Entity } from "./Entity";
 
 export class Player extends Entity {
-	protected type = "player";
-	public readonly source: number;
 	private constructor(source: number) {
-		super();
-		this.source = source;
+		super(source);
+	}
+
+	public get handle(): number {
+		return this.ped;
 	}
 
 	public static *all(): IterableIterator<Player> {
@@ -19,8 +20,12 @@ export class Player extends Entity {
 		}
 	}
 
+	public get source(): number {
+		return this.id;
+	}
+
 	public get src(): string {
-		return String(this.source);
+		return String(this.id);
 	}
 
 	public static fromSource(src: number | string): Player {
@@ -57,11 +62,11 @@ export class Player extends Entity {
 	}
 
 	public get isMuted(): boolean {
-		return cfx.mumbleIsPlayerMuted(this.source);
+		return cfx.mumbleIsPlayerMuted(this.id);
 	}
 
 	public set isMuted(value: boolean) {
-		cfx.mumbleSetPlayerMuted(this.source, value);
+		cfx.mumbleSetPlayerMuted(this.id, value);
 	}
 
 	public get ping(): number {
@@ -86,6 +91,6 @@ export class Player extends Entity {
 	}
 
 	public emit(event: string, ...args: any[]): void {
-		Event.emitClient(event, this.source, ...args);
+		Event.emitClient(event, this.id, ...args);
 	}
 }
