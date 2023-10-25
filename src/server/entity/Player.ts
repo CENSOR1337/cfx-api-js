@@ -1,32 +1,45 @@
 import * as cfx from "@censor1337/cfx-core/server";
-import { Event } from "./Event";
-import { Vector3 } from "@censor1337/cfx-core/server";
+import { Event } from "../Event";
+import { Entity } from "./Entity";
 
-export class Player {
-	protected type = "player";
-	public readonly source: number;
+export class Player extends Entity {
 	private constructor(source: number) {
-		this.source = source;
+		super(source);
 	}
 
-	public static *all(): IterableIterator<Player> {
-		const indices = cfx.getNumPlayerIndices();
-		for (let i = 0; i < indices; i++) {
-			const src = cfx.getPlayerFromIndex(i);
-			yield Player.fromSource(src);
+	public get handle(): number {
+		return this.ped;
+	}
+
+	public static get all(): Array<Player> {
+		const players = new Array<Player>();
+		const num = cfx.getNumPlayerIndices();
+		for (let i = 0; i < num; i++) {
+			const playerId = cfx.getPlayerFromIndex(i);
+			const player = Player.fromSource(playerId);
+			players.push(player);
 		}
+		return players;
+	}
+
+	public get source(): number {
+		return this.id;
 	}
 
 	public get src(): string {
-		return String(this.source);
+		return String(this.id);
 	}
 
 	public static fromSource(src: number | string): Player {
 		return new Player(Number(src));
 	}
 
-	public exists(): boolean {
-		return this.source !== 0;
+	public get valid(): boolean {
+		return cfx.doesPlayerExist(this.src);
+	}
+
+	public get exists(): boolean {
+		return this.valid;
 	}
 
 	public get ped(): number {
@@ -51,19 +64,15 @@ export class Player {
 	}
 
 	public get isMuted(): boolean {
-		return cfx.mumbleIsPlayerMuted(this.source);
+		return cfx.mumbleIsPlayerMuted(this.id);
 	}
 
 	public set isMuted(value: boolean) {
-		cfx.mumbleSetPlayerMuted(this.source, value);
+		cfx.mumbleSetPlayerMuted(this.id, value);
 	}
 
 	public get ping(): number {
 		return cfx.getPlayerPing(this.src);
-	}
-
-	public get pos(): Vector3 {
-		return cfx.getEntityCoords(this.ped);
 	}
 
 	public isAceAllow(object: string): boolean {
@@ -76,6 +85,6 @@ export class Player {
 	}
 
 	public emit(event: string, ...args: any[]): void {
-		Event.emitClient(event, this.source, ...args);
+		Event.emitClient(event, this.id, ...args);
 	}
 }
