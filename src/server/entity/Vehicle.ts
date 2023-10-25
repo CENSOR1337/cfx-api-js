@@ -7,4 +7,8 @@ export class Vehicle extends Entity {
 
 		return new Vehicle(handle);
 	}
+
+	public static get all(): Array<Vehicle> {
+		return cfx.getAllVehicles().map((handle: number) => Vehicle.fromHandle(handle));
+	}
 }

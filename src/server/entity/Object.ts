@@ -7,4 +7,8 @@ export class Object extends Entity {
 
 		return new Object(handle);
 	}
+
+	public static get all(): Array<Object> {
+		return cfx.getAllObjects().map((handle: number) => Object.fromHandle(handle));
+	}
 }

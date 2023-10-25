@@ -7,4 +7,9 @@ export class Ped extends Entity {
 
 		return new Ped(handle);
 	}
+
+	public static get all(): Array<Ped> {
+		const gamePeds = cfx.getAllPeds().filter((pedHandle: number) => !cfx.isPedAPlayer(pedHandle)) as Array<number>;
+		return gamePeds.map((handle: number) => Ped.fromHandle(handle));
+	}
 }

@@ -2,6 +2,9 @@ import { WorldObject } from "../../shared/entity/WorldObject";
 import * as cfx from "@censor1337/cfx-core/server";
 import { Vector3 } from "@censor1337/cfx-core/server";
 import { Player } from ".";
+import { Object } from ".";
+import { Vehicle } from ".";
+import { Ped } from ".";
 
 export class Entity extends WorldObject {
 	public readonly id: number;
@@ -60,5 +63,12 @@ export class Entity extends WorldObject {
 
 	public get model(): number {
 		return cfx.getEntityModel(this.handle);
+	}
+
+	public get all(): Array<Entity> {
+		const objects = Object.all;
+		const vehicles = Vehicle.all;
+		const peds = Ped.all;
+		return [...objects, ...vehicles, ...peds];
 	}
 }
