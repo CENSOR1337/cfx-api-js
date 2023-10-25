@@ -11,12 +11,15 @@ export class Player extends Entity {
 		return this.ped;
 	}
 
-	public static *all(): IterableIterator<Player> {
-		const indices = cfx.getNumPlayerIndices();
-		for (let i = 0; i < indices; i++) {
-			const src = cfx.getPlayerFromIndex(i);
-			yield Player.fromSource(src);
+	public static get all(): Array<Player> {
+		const players = new Array<Player>();
+		const num = cfx.getNumPlayerIndices();
+		for (let i = 0; i < num; i++) {
+			const playerId = cfx.getPlayerFromIndex(i);
+			const player = Player.fromSource(playerId);
+			players.push(player);
 		}
+		return players;
 	}
 
 	public get source(): number {
