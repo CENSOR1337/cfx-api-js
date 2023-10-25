@@ -65,7 +65,7 @@ export class Entity extends WorldObject {
 		return cfx.getEntityModel(this.handle);
 	}
 
-	public get all(): Array<Entity> {
+	public static get all(): Array<Entity> {
 		const objects = Object.all;
 		const vehicles = Vehicle.all;
 		const peds = Ped.all;
